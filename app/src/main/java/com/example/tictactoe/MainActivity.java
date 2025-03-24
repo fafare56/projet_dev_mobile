@@ -24,8 +24,12 @@ public class MainActivity extends AppCompatActivity {
             return insets;
         });
 
-        // Récupérer le bouton Exit
-        Button btnExit = findViewById(R.id.btn_exit);
+        // Récupérer les boutons
+        Button btnExit      = findViewById(R.id.btn_exit        );
+        Button btnTicTacToe = findViewById(R.id.btn_TicTactoe   );
+        Button btnJeuVie    = findViewById(R.id.btn_JeuVie      );
+        Button btnRond      = findViewById(R.id.btn_SuiviCourbes);
+
 
         // Ajouter le click listener
         btnExit.setOnClickListener(new View.OnClickListener() {
@@ -34,6 +38,19 @@ public class MainActivity extends AppCompatActivity {
                 // Fermer l'application
                 finishAffinity();
                 System.exit(0);
+            }
+        });
+
+        btnTicTacToe.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Changer le layout
+                setContentView(R.layout.param_tictactoe);
+
+                // Ici vous pouvez initialiser les éléments du nouveau layout
+                // Par exemple :
+                // Button backButton = findViewById(R.id.back_button);
+                // backButton.setOnClickListener(...);
             }
         });
     }
