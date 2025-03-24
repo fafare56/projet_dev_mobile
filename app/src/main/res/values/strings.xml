@@ -11,5 +11,8 @@
     <string name="btn_JeuVie">Jeu de la vie</string>
     <string name="btn_SuiviCourbes">Suivi de courbes</string>
     <string name="btn_exit">Quitter</string>
+    <string name="btn_jouer">Jouer</string>
+    <string name="btn_cancel">Annuler</string>
+
 
 </resources>
