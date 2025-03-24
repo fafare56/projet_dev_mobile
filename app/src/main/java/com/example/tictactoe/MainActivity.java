@@ -46,11 +46,6 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 // Changer le layout
                 setContentView(R.layout.param_tictactoe);
-
-                // Ici vous pouvez initialiser les éléments du nouveau layout
-                // Par exemple :
-                // Button backButton = findViewById(R.id.back_button);
-                // backButton.setOnClickListener(...);
             }
         });
     }
