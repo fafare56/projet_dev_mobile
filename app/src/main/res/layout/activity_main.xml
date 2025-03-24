@@ -20,7 +20,7 @@
             android:text="@string/name"
             android:textSize="70sp"
             android:gravity="center"
-            android:fontFamily="@font/Dopestyle"
+            android:fontFamily="@font/dopestyle"
             android:textColor="@color/white">
         </TextView>
 
