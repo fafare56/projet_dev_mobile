@@ -46,35 +46,41 @@ public class TicTacToeView extends View
 
 
     @Override
-    protected void onDraw(Canvas canvas)
-    {
+    protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
 
         int width = getWidth();
         int height = getHeight();
         int cellSize = width / TAILLEGRILLE;
 
-        for (int i = 1; i < TAILLEGRILLE; i++)
-        {
+        // Réduire l'épaisseur des lignes de la grille
+        paint.setStrokeWidth(8);
+
+        // Dessiner les lignes de la grille
+        for (int i = 1; i < TAILLEGRILLE; i++) {
             int pos = i * cellSize;
             canvas.drawLine(pos, 0, pos, height, paint);
             canvas.drawLine(0, pos, width, pos, paint);
         }
 
+        // Augmenter la taille du texte pour les symboles X et O
         Paint textPaint = new Paint();
         textPaint.setColor(0xFF000000);
-        textPaint.setTextSize(100);
+        textPaint.setTextSize(150);  // Augmenter la taille du texte
         textPaint.setTextAlign(Paint.Align.CENTER);
 
-        for (int i = 0; i < TAILLEGRILLE; i++)
-            for (int j = 0; j < TAILLEGRILLE; j++)
-                if (board[i][j] != ' ')
-                {
+        // Dessiner les X et O dans chaque case
+        for (int i = 0; i < TAILLEGRILLE; i++) {
+            for (int j = 0; j < TAILLEGRILLE; j++) {
+                if (board[i][j] != ' ') {
                     float x = j * cellSize + cellSize / 2f;
                     float y = i * cellSize + cellSize / 2f + 35;
                     canvas.drawText(String.valueOf(board[i][j]), x, y, textPaint);
                 }
+            }
+        }
     }
+
 
     @Override
     public boolean onTouchEvent(MotionEvent event)
@@ -89,25 +95,30 @@ public class TicTacToeView extends View
             int xPos = (int) event.getX() / cellSize;
             int yPos = (int) event.getY() / cellSize;
 
-            if (board[yPos][xPos] == ' ')
-            {
+            if (board[yPos][xPos] == ' ') {
+                // Marquer la case avec le coup du joueur
                 board[yPos][xPos] = currentPlayer;
                 invalidate();
 
-                if (verifierGagnant(currentPlayer))
-                {
+                // Vérifier si le joueur a gagné
+                if (verifierGagnant(currentPlayer)) {
                     afficherVainqueur(currentPlayer);
                     return true;
                 }
 
+                // Changer de joueur
                 currentPlayer = (currentPlayer == 'X') ? 'O' : 'X';
 
-                if (currentPlayer == 'O')
+                // Si c'est le tour de l'IA, faire jouer l'IA
+                if (currentPlayer == 'O') {
                     jouerIA();
+                }
             }
         }
         return true;
     }
+
+
 
     public void setTailleGrille(int taille)
     {
@@ -117,32 +128,34 @@ public class TicTacToeView extends View
     }
 
 
-    private void jouerIA()
-    {
+    private void jouerIA() {
         if (gameOver) return;
 
+        // L'IA joue ici
         int[] mouvement = iaJeu.mouvementIA();
         int x = mouvement[0];
         int y = mouvement[1];
 
-        while (board[y][x] != ' ')
-        {
+        while (board[y][x] != ' ') {
             mouvement = iaJeu.mouvementIA();
             x = mouvement[0];
             y = mouvement[1];
         }
 
+        // Marquer la case avec le coup de l'IA
         board[y][x] = 'O';
         invalidate();
 
-        if (verifierGagnant('O'))
-        {
+        // Vérifier si l'IA a gagné
+        if (verifierGagnant('O')) {
             afficherVainqueur('O');
             return;
         }
 
+        // Passer au joueur suivant (X)
         currentPlayer = 'X';
     }
+
 
 
     private boolean verifierGagnant(char joueur)
