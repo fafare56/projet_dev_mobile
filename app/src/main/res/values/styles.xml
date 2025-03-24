@@ -1,0 +1,12 @@
+<resources>
+    <!-- ThÃ¨me de base pour Android 4+ (API 14) -->
+    <style name="AppTheme" parent="android:Theme.Holo.Light">
+        <!-- Personnalisations optionnelles -->
+        <item name="android:actionBarStyle">@style/MyActionBar</item>
+    </style>
+
+    <!-- Style optionnel pour la ActionBar -->
+    <style name="MyActionBar" parent="android:Widget.Holo.Light.ActionBar">
+        <item name="android:background">#FF5722</item> <!-- Couleur orange -->
+    </style>
+</resources>

@@ -1,8 +1,11 @@
 package com.example.tictactoe;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.SeekBar;
+import android.widget.TextView;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -25,10 +28,10 @@ public class MainActivity extends AppCompatActivity {
         });
 
         // Récupérer les boutons
-        Button btnExit      = findViewById(R.id.btn_exit        );
-        Button btnTicTacToe = findViewById(R.id.btn_TicTactoe   );
-        Button btnJeuVie    = findViewById(R.id.btn_JeuVie      );
-        Button btnRond      = findViewById(R.id.btn_SuiviCourbes);
+        Button btnExit = findViewById(R.id.btn_exit);
+        Button btnTicTacToe = findViewById(R.id.btn_TicTactoe);
+        Button btnJeuVie = findViewById(R.id.btn_JeuVie);
+        Button btnRond = findViewById(R.id.btn_SuiviCourbes);
 
 
         // Ajouter le click listener
