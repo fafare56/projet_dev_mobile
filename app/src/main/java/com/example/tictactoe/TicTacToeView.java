@@ -109,9 +109,7 @@ public class TicTacToeView extends View
                 currentPlayer = (currentPlayer == 'X') ? 'O' : 'X';
 
                 if (currentPlayer == 'O')
-                {
                     jouerIA();
-                }
             }
         }
         return true;
@@ -148,13 +146,8 @@ public class TicTacToeView extends View
     private boolean verifierGagnant(char joueur)
     {
         for (int i = 0; i < TAILLEGRILLE; i++)
-        {
             if (verifierAlignement(board[i], joueur) || verifierAlignement(getColonne(i), joueur))
-            {
                 return true;
-            }
-        }
-
         return verifierAlignement(getDiagonalePrincipale(), joueur) || verifierAlignement(getDiagonaleSecondaire(), joueur);
     }
 
@@ -173,9 +166,7 @@ public class TicTacToeView extends View
     {
         char[] colonne = new char[TAILLEGRILLE];
         for (int i = 0; i < TAILLEGRILLE; i++)
-        {
             colonne[i] = board[i][index];
-        }
         return colonne;
     }
 
@@ -183,9 +174,7 @@ public class TicTacToeView extends View
     {
         char[] diagonale = new char[TAILLEGRILLE];
         for (int i = 0; i < TAILLEGRILLE; i++)
-        {
             diagonale[i] = board[i][i];
-        }
         return diagonale;
     }
 
@@ -193,9 +182,7 @@ public class TicTacToeView extends View
     {
         char[] diagonale = new char[TAILLEGRILLE];
         for (int i = 0; i < TAILLEGRILLE; i++)
-        {
             diagonale[i] = board[i][TAILLEGRILLE - i - 1];
-        }
         return diagonale;
     }
 
