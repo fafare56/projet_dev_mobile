@@ -33,7 +33,7 @@ public class TicTacToeView extends View
         iaJeu = new AI(board);
     }
 
-    private void resetBoard()
+    public void resetBoard()
     {
         for (int i = 0; i < TAILLEGRILLE; i++)
         {
