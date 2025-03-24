@@ -17,9 +17,9 @@
         >
 
         <TextView
-            android:layout_width="700px"
+            android:layout_width="900px"
             android:layout_height="470px"
-            android:text="@string/app_name"
+            android:text="@string/btn_TicTactoe"
             android:textSize="70sp"
             android:gravity="center"
             android:fontFamily="@font/dopestyle"
@@ -36,7 +36,7 @@
                 android:layout_height="470px"
                 android:text="Rentrez la taille de la grille : "
                 android:textSize="50px"
-                android:layout_marginLeft="50px"
+                android:layout_marginLeft="150px"
                 android:textColor="@color/white"/>
 
             <EditText

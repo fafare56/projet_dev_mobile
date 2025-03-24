@@ -37,12 +37,11 @@
                 android:id="@+id/btn_TicTactoe"
                 android:layout_width="600px"
                 android:layout_height="170px"
-                android:text="@string/btn_TicTactoe"
-                android:textSize="24sp"
                 android:layout_marginTop="500px"
+                android:background="@color/blue_clair"
+                android:text="@string/btn_TicTactoe"
                 android:textColor="@color/white"
-                android:background="@color/blue_clair">
-            </androidx.appcompat.widget.AppCompatButton>
+                android:textSize="24sp"></androidx.appcompat.widget.AppCompatButton>
 
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/btn_JeuVie"
