@@ -1,0 +1,4 @@
+<resources>
+    <integer name="default_size">20</integer>
+    <integer name="default_density">30</integer>
+</resources>

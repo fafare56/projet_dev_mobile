@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <?xml version="1.0" encoding="utf-8"?>
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:padding="@dimen/default_padding">
+
+        <!-- ParamÃ¨tres -->
+        <TextView
+            android:id="@+id/size_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/size_label"
+            android:textSize="@dimen/text_medium"/>
+
+        <SeekBar
+            android:id="@+id/size_seekbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:min="5"
+            android:max="50"
+            android:progress="@integer/default_size"/>
+
+        <TextView
+            android:id="@+id/density_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/density_label"
+            android:textSize="@dimen/text_medium"/>
+
+        <SeekBar
+            android:id="@+id/density_seekbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:min="0"
+            android:max="100"
+            android:progress="@integer/default_density"/>
+
+        <!-- Boutons -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="@dimen/spacing_medium">
+
+            <Button
+                android:id="@+id/start_button"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/start_button"/>
+
+            <Button
+                android:id="@+id/stop_button"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/stop_button"/>
+
+            <Button
+                android:id="@+id/reset_button"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/reset_button"/>
+        </LinearLayout>
+
+        <!-- Stats -->
+        <TextView
+            android:id="@+id/iteration_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/iteration_label"
+            android:textSize="@dimen/text_large"/>
+
+        <TextView
+            android:id="@+id/result_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/text_large"/>
+
+        <!-- Vue du jeu -->
+        <com.example.tictactoe.GameOfLifeView
+            android:id="@+id/game_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="@dimen/spacing_medium"
+            android:background="@color/white"/>
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
