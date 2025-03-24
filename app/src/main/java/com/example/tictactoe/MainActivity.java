@@ -1,5 +1,6 @@
 package com.example.tictactoe;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -25,33 +26,33 @@ public class MainActivity extends AppCompatActivity {
         });
 
         // Récupérer les boutons
-        Button btnExit      = findViewById(R.id.btn_exit        );
-        Button btnTicTacToe = findViewById(R.id.btn_TicTactoe   );
-        Button btnJeuVie    = findViewById(R.id.btn_JeuVie      );
+        Button btnExit      = findViewById(R.id.btn_exit);
+        Button btnTicTacToe = findViewById(R.id.btn_TicTactoe);
+        Button btnJeuVie    = findViewById(R.id.btn_JeuVie);
         Button btnRond      = findViewById(R.id.btn_SuiviCourbes);
 
-
-        // Ajouter le click listener
-        btnExit.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // Fermer l'application
-                finishAffinity();
-                System.exit(0);
-            }
+        // Bouton Quitter
+        btnExit.setOnClickListener(v -> {
+            finishAffinity();
+            System.exit(0);
         });
 
-        btnTicTacToe.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // Changer le layout
-                setContentView(R.layout.param_tictactoe);
-
-                // Ici vous pouvez initialiser les éléments du nouveau layout
-                // Par exemple :
-                // Button backButton = findViewById(R.id.back_button);
-                // backButton.setOnClickListener(...);
-            }
+        // Bouton TicTacToe -> Lancer TicTacToeParamActivity
+        btnTicTacToe.setOnClickListener(v -> {
+            Intent intent = new Intent(MainActivity.this, TicTacToeParamActivity.class);
+            startActivity(intent);
         });
+
+        // Bouton Jeu de la Vie -> Lancer JeuDeLaVieActivity (à créer)
+        /*btnJeuVie.setOnClickListener(v -> {
+            Intent intent = new Intent(MainActivity.this, JeuDeLaVieActivity.class);
+            startActivity(intent);
+        });
+
+        // Bouton Suivi des Courbes -> Lancer CourbesActivity (à créer)
+        btnRond.setOnClickListener(v -> {
+            Intent intent = new Intent(MainActivity.this, CourbesActivity.class);
+            startActivity(intent);
+        });*/
     }
 }

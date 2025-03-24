@@ -16,7 +16,7 @@ public class TicTacToeView extends View
     private AI iaJeu;
     private boolean gameOver = false;
 
-    private static final int TAILLEGRILLE = 3;
+    private static int TAILLEGRILLE = 3;
     private static final int ALIGNEMENT_VICTOIRE = TAILLEGRILLE;
 
     public TicTacToeView(Context context, AttributeSet attrs)
@@ -35,17 +35,15 @@ public class TicTacToeView extends View
 
     public void resetBoard()
     {
+        board = new char[TAILLEGRILLE][TAILLEGRILLE];
         for (int i = 0; i < TAILLEGRILLE; i++)
-        {
             for (int j = 0; j < TAILLEGRILLE; j++)
-            {
                 board[i][j] = ' ';
-            }
-        }
         currentPlayer = 'X';
         gameOver = false;
         invalidate();
     }
+
 
     @Override
     protected void onDraw(Canvas canvas)
@@ -69,17 +67,13 @@ public class TicTacToeView extends View
         textPaint.setTextAlign(Paint.Align.CENTER);
 
         for (int i = 0; i < TAILLEGRILLE; i++)
-        {
             for (int j = 0; j < TAILLEGRILLE; j++)
-            {
                 if (board[i][j] != ' ')
                 {
                     float x = j * cellSize + cellSize / 2f;
                     float y = i * cellSize + cellSize / 2f + 35;
                     canvas.drawText(String.valueOf(board[i][j]), x, y, textPaint);
                 }
-            }
-        }
     }
 
     @Override
@@ -114,6 +108,14 @@ public class TicTacToeView extends View
         }
         return true;
     }
+
+    public void setTailleGrille(int taille)
+    {
+        TAILLEGRILLE = taille;
+        board = new char[TAILLEGRILLE][TAILLEGRILLE];
+        resetBoard();
+    }
+
 
     private void jouerIA()
     {

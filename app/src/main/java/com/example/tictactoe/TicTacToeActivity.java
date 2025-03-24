@@ -8,17 +8,22 @@ import androidx.appcompat.app.AppCompatActivity;
 public class TicTacToeActivity extends AppCompatActivity {
     private int scoreX = 0;
     private int scoreO = 0;
+    private int tailleGrille = 3; // Par défaut 3x3
     private TextView scoreXText, scoreOText;
     private TicTacToeView ticTacToeView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.tictactoe);
+
+        tailleGrille = getIntent().getIntExtra("TAILLE_GRILLE", 3);
 
         scoreXText = findViewById(R.id.scoreX);
         scoreOText = findViewById(R.id.scoreO);
         ticTacToeView = findViewById(R.id.ticTacToeView);
+
+        ticTacToeView.setTailleGrille(tailleGrille);
 
         Button btnRejouer = findViewById(R.id.btnRejouer);
         btnRejouer.setOnClickListener(v -> ticTacToeView.resetBoard());
