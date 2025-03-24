@@ -18,7 +18,7 @@
             android:layout_centerHorizontal="true"
             android:layout_marginTop="100px"
             android:text="@string/name"
-            android:textSize="70sp"
+            android:textSize="71sp"
             android:gravity="center"
             android:fontFamily="@font/Dopestyle"
             android:textColor="@color/white">
