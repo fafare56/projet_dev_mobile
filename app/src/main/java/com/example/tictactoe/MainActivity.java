@@ -44,13 +44,13 @@ public class MainActivity extends AppCompatActivity {
         });
 
         // Bouton Jeu de la Vie -> Lancer JeuDeLaVieActivity (à créer)
-        /*btnJeuVie.setOnClickListener(v -> {
-            Intent intent = new Intent(MainActivity.this, JeuDeLaVieActivity.class);
+        btnJeuVie.setOnClickListener(v -> {
+            Intent intent = new Intent(MainActivity.this, JeuVie.class);
             startActivity(intent);
         });
 
         // Bouton Suivi des Courbes -> Lancer CourbesActivity (à créer)
-        btnRond.setOnClickListener(v -> {
+        /*btnRond.setOnClickListener(v -> {
             Intent intent = new Intent(MainActivity.this, CourbesActivity.class);
             startActivity(intent);
         });*/
