@@ -40,6 +40,7 @@
                 android:textColor="@color/white"/>
 
             <EditText
+                android:id="@+id/editGrill"
                 android:layout_width="140px"
                 android:layout_height="80px"
                 android:background="@color/white"
