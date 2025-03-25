@@ -100,8 +100,15 @@
             android:layout_width="match_parent"
             android:layout_height="436dp"
             android:layout_marginTop="@dimen/spacing_medium"
-            android:layout_weight="50"
+            android:layout_weight="40"
             android:background="@color/white" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="273dp"
+
+            android:layout_weight="50">
+        </TextView>
 
         <!-- Nouveau bouton en bas de la page -->
         <androidx.appcompat.widget.AppCompatButton
