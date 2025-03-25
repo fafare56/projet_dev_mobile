@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp"
+    android:background="@color/blue_foncé">
+
+    <TextView
+        android:id="@+id/size_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="@color/white"
+        android:text="@string/size_label"
+        android:textSize="18sp"/>
+
+    <SeekBar
+        android:id="@+id/size_seekbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:min="5"
+        android:max="50"/>
+
+    <TextView
+        android:id="@+id/density_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="@color/white"
+        android:textSize="18sp"
+        android:text="@string/density_label"
+        android:layout_marginTop="16dp"/>
+
+    <SeekBar
+        android:id="@+id/density_seekbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:min="0"
+        android:max="100"/>
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/confirm_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Confirmer"
+        android:layout_marginTop="32dp"
+        android:background="@color/blue_clair"/>
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/retour_menu"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/retourmenu"
+        android:layout_marginTop="32dp"
+        android:background="@color/blue_clair"/>
+</LinearLayout>

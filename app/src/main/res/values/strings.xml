@@ -24,6 +24,8 @@
     <string name="result_no_periodicity">Terminé: 1000 itérations (pas de périodicité)</string>
     <string name="result_periodicity">Périodicité détectée après %d itérations</string>
     <string name="retour">Retour</string>
+    <string name="lancer">Lancer</string>
+    <string name="retourmenu">Retoruner au menu</string>
 
     <!-- Default Values -->
     <string name="default_size">20</string>
