@@ -7,48 +7,43 @@ import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Toast;
+import java.util.Arrays;
 
-public class TicTacToeView extends View
-{
+public class TicTacToeView extends View {
     private Paint paint;
     private char[][] board;
     private char currentPlayer;
     private AI iaJeu;
     private boolean gameOver = false;
-    private boolean isPlayerTurn = true; // Flag pour savoir si c'est le tour du joueur
-
 
     private static int TAILLEGRILLE = 3;
     private static final int ALIGNEMENT_VICTOIRE = TAILLEGRILLE;
 
-    public TicTacToeView(Context context, AttributeSet attrs)
-    {
+    public TicTacToeView(Context context, AttributeSet attrs) {
         super(context, attrs);
         paint = new Paint();
         paint.setColor(0xFF000000);
         paint.setStrokeWidth(10);
 
+        // Initialisation du tableau board
         board = new char[TAILLEGRILLE][TAILLEGRILLE];
         currentPlayer = 'X';
-        resetBoard();
+        resetBoard();  // Initialiser le plateau
 
         iaJeu = new AI(board);
     }
 
     public void resetBoard() {
-        // Réinitialiser le plateau
-        for (int y = 0; y < 3; y++) {
-            for (int x = 0; x < 3; x++) {
-                board[y][x] = ' ';  // Vide la grille
+        board = new char[TAILLEGRILLE][TAILLEGRILLE];
+        for (int i = 0; i < TAILLEGRILLE; i++) {
+            for (int j = 0; j < TAILLEGRILLE; j++) {
+                board[i][j] = ' ';
             }
         }
-
-        // Remettre la main au joueur
-        isPlayerTurn = true;  // IMPORTANT : S'assurer que c'est au joueur de commencer
-
-        System.out.println("Le jeu a été réinitialisé. C'est au joueur de jouer.");
+        currentPlayer = 'X';
+        gameOver = false;
+        invalidate();
     }
-
 
     @Override
     protected void onDraw(Canvas canvas) {
@@ -86,10 +81,9 @@ public class TicTacToeView extends View
         }
     }
 
-
     @Override
     public boolean onTouchEvent(MotionEvent event) {
-        if (gameOver || !isPlayerTurn) return true;  // Empêcher l'utilisateur de jouer si ce n'est pas son tour
+        if (gameOver) return true;
 
         int width = getWidth();
         int cellSize = width / TAILLEGRILLE;
@@ -112,128 +106,130 @@ public class TicTacToeView extends View
                 // Changer de joueur
                 currentPlayer = (currentPlayer == 'X') ? 'O' : 'X';
 
-                // Si c'est le tour de l'IA, faire jouer l'IA dans un thread séparé
+                // Si c'est le tour de l'IA, faire jouer l'IA
                 if (currentPlayer == 'O') {
-                    isPlayerTurn = false; // Bloquer l'utilisateur pendant que l'IA joue
-                    new Thread(new Runnable() {
-                        @Override
-                        public void run() {
-                            jouerIA();
-                        }
-                    }).start();
+                    jouerIA();
                 }
             }
         }
         return true;
     }
 
-
-
-
-    public void setTailleGrille(int taille)
-    {
+    public void setTailleGrille(int taille) {
         TAILLEGRILLE = taille;
         board = new char[TAILLEGRILLE][TAILLEGRILLE];
         resetBoard();
+        iaJeu = new AI(board); // Réinitialiser l'IA avec le nouveau plateau
     }
-
 
     private void jouerIA() {
         if (gameOver) return;
 
-        System.out.println("IA joue...");
+        // Mettre à jour le plateau de l'IA
+        iaJeu.setGrille(board);
 
-        int[] mouvement = iaJeu.mouvementIA();
+        new Thread(() -> {
+            int[] mouvement = iaJeu.mouvementIA();
+            if (mouvement == null) {
+                // Aucun mouvement possible (plateau plein)
+                return;
+            }
 
-        if (mouvement == null) {
-            System.out.println("L'IA ne trouve aucun coup possible !");
-            isPlayerTurn = true;
-            return;
-        }
+            int x = mouvement[0];
+            int y = mouvement[1];
 
-        int x = mouvement[0];
-        int y = mouvement[1];
+            // Vérifier à nouveau que la case est libre (au cas où)
+            if (board[y][x] != ' ') {
+                // Si la case n'est pas libre, trouver une autre case
+                mouvement = iaJeu.mouvementAleatoire();
+                if (mouvement == null) return;
+                x = mouvement[0];
+                y = mouvement[1];
+            }
 
-        System.out.println("L'IA veut jouer en (" + x + "," + y + ")");
+            // Marquer la case
+            board[y][x] = 'O';
 
-        // Vérifier si la case est bien vide
-        if (board[y][x] != ' ') {
-            System.out.println("ERREUR : L'IA essaie de jouer sur une case occupée !");
-            return;
-        }
-
-        // Appliquer le coup
-        board[y][x] = 'O';
-
-        post(new Runnable() {
-            @Override
-            public void run() {
-                System.out.println("IA a joué en (" + x + "," + y + ")");
+            post(() -> {
                 invalidate();
-
                 if (verifierGagnant('O')) {
                     afficherVainqueur('O');
-                    return;
+                } else if (estMatchNul()) {
+                    afficherMatchNul();
+                } else {
+                    currentPlayer = 'X';
                 }
-
-                currentPlayer = 'X';
-                isPlayerTurn = true;
-                System.out.println("Tour du joueur.");
-            }
-        });
+            });
+        }).start();
     }
 
+    private boolean estMatchNul() {
+        for (int i = 0; i < TAILLEGRILLE; i++) {
+            for (int j = 0; j < TAILLEGRILLE; j++) {
+                if (board[i][j] == ' ') {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
 
+    private void afficherMatchNul() {
+        gameOver = true;
+        Toast.makeText(getContext(), "Match nul !", Toast.LENGTH_LONG).show();
+        postDelayed(this::resetBoard, 2000);
+    }
 
-
-
-    private boolean verifierGagnant(char joueur)
-    {
-        for (int i = 0; i < TAILLEGRILLE; i++)
-            if (verifierAlignement(board[i], joueur) || verifierAlignement(getColonne(i), joueur))
+    private boolean verifierGagnant(char joueur) {
+        for (int i = 0; i < TAILLEGRILLE; i++) {
+            if (verifierAlignement(board[i], joueur) || verifierAlignement(getColonne(i), joueur)) {
                 return true;
+            }
+        }
         return verifierAlignement(getDiagonalePrincipale(), joueur) || verifierAlignement(getDiagonaleSecondaire(), joueur);
     }
 
-    private boolean verifierAlignement(char[] ligne, char joueur)
-    {
+    private boolean verifierAlignement(char[] ligne, char joueur) {
         int count = 0;
-        for (char cell : ligne)
-        {
+        for (char cell : ligne) {
             count = (cell == joueur) ? count + 1 : 0;
             if (count == ALIGNEMENT_VICTOIRE) return true;
         }
         return false;
     }
 
-    private char[] getColonne(int index)
-    {
+    private char[] getColonne(int index) {
         char[] colonne = new char[TAILLEGRILLE];
-        for (int i = 0; i < TAILLEGRILLE; i++)
+        for (int i = 0; i < TAILLEGRILLE; i++) {
             colonne[i] = board[i][index];
+        }
         return colonne;
     }
 
-    private char[] getDiagonalePrincipale()
-    {
+    private char[] getDiagonalePrincipale() {
         char[] diagonale = new char[TAILLEGRILLE];
-        for (int i = 0; i < TAILLEGRILLE; i++)
+        for (int i = 0; i < TAILLEGRILLE; i++) {
             diagonale[i] = board[i][i];
+        }
         return diagonale;
     }
 
-    private char[] getDiagonaleSecondaire()
-    {
+    private char[] getDiagonaleSecondaire() {
         char[] diagonale = new char[TAILLEGRILLE];
-        for (int i = 0; i < TAILLEGRILLE; i++)
+        for (int i = 0; i < TAILLEGRILLE; i++) {
             diagonale[i] = board[i][TAILLEGRILLE - i - 1];
+        }
         return diagonale;
     }
 
-    private void afficherVainqueur(char gagnant)
-    {
+    private void afficherVainqueur(char gagnant) {
         gameOver = true;
         Toast.makeText(getContext(), "Le joueur " + gagnant + " a gagné !", Toast.LENGTH_LONG).show();
-        postDelayed(this::resetBoard, 2000);
+        postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                resetBoard();
+            }
+        }, 2000);
     }
 }
