@@ -1,6 +1,7 @@
 package com.example.tictactoe;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.SeekBar;
@@ -8,7 +9,7 @@ import android.widget.TextView;
 
 public class JeuVie extends Activity {  // Retiré 'static' car une Activity ne peut pas être statique
     private GameOfLifeView gameView;
-    private Button startButton, stopButton, resetButton;
+    private Button startButton, stopButton, resetButton, returnButton;
     private TextView iterationText, resultText, sizeText, densityText;
     private SeekBar sizeSeekBar, densitySeekBar;
     private GameOfLife game;
@@ -24,6 +25,7 @@ public class JeuVie extends Activity {  // Retiré 'static' car une Activity ne 
         startButton = findViewById(R.id.start_button);
         stopButton = findViewById(R.id.stop_button);
         resetButton = findViewById(R.id.reset_button);
+        returnButton = findViewById(R.id.btn_retour);
         iterationText = findViewById(R.id.iteration_text);
         resultText = findViewById(R.id.result_text);
         sizeText = findViewById(R.id.size_text);
@@ -86,6 +88,10 @@ public class JeuVie extends Activity {  // Retiré 'static' car une Activity ne 
             int size = sizeSeekBar.getProgress();
             float density = densitySeekBar.getProgress() / 100f;
             resetGame(size, density);
+        });
+
+        returnButton.setOnClickListener(v -> {
+            finish();
         });
     }
 
