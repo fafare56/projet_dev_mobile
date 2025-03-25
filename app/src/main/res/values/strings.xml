@@ -23,10 +23,12 @@
     <string name="density_label">Densité: %.2f</string>
     <string name="result_no_periodicity">Terminé: 1000 itérations (pas de périodicité)</string>
     <string name="result_periodicity">Périodicité détectée après %d itérations</string>
+    <string name="retour">Retour</string>
 
     <!-- Default Values -->
     <string name="default_size">20</string>
     <string name="default_density">30</string> <!-- 30% = 0.3 -->
+
 
 
 </resources>

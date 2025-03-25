@@ -3,14 +3,14 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
         android:background="@color/blue_foncé"
         android:padding="@dimen/default_padding">
 
-        <!-- ParamÃ¨tres -->
+        <!-- Paramètres -->
         <TextView
             android:id="@+id/size_text"
             android:layout_width="match_parent"
@@ -57,7 +57,6 @@
                 android:layout_weight="1"
                 android:background="@color/blue_clair"
                 android:layout_marginEnd="5dp"
-
                 android:text="@string/start_button"/>
 
             <androidx.appcompat.widget.AppCompatButton
@@ -99,9 +98,19 @@
         <com.example.tictactoe.GameOfLifeView
             android:id="@+id/game_view"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="436dp"
             android:layout_marginTop="@dimen/spacing_medium"
-            android:background="@color/white"/>
-    </LinearLayout>
+            android:layout_weight="50"
+            android:background="@color/white" />
 
+        <!-- Nouveau bouton en bas de la page -->
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btn_retour"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing_medium"
+            android:background="@color/blue_clair"
+            android:text="@string/retour"/>
+
+    </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
