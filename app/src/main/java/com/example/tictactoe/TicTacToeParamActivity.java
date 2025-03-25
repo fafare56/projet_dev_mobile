@@ -8,42 +8,48 @@ import android.widget.EditText;
 import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
-public class TicTacToeParamActivity extends AppCompatActivity {
+public class TicTacToeParamActivity extends AppCompatActivity
+{
     private EditText editGrill;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.param_tictactoe); // Assure-toi que ce fichier existe dans res/layout/
+        setContentView(R.layout.param_tictactoe);
 
         editGrill = findViewById(R.id.editGrill);
         Button btnJouer = findViewById(R.id.btn_TicTactoe);
         Button btnExit = findViewById(R.id.btn_exit);
 
-        btnJouer.setOnClickListener(v -> {
+        btnJouer.setOnClickListener(v ->
+        {
             String tailleGrilleStr = editGrill.getText().toString().trim();
 
-            if (!tailleGrilleStr.isEmpty()) {
-                try {
+            if (!tailleGrilleStr.isEmpty())
+            {
+                try
+                {
                     int tailleGrille = Integer.parseInt(tailleGrilleStr);
 
-                    if (tailleGrille >= 3 && tailleGrille <= 10) {
-                        // Utiliser un Handler pour postposer le démarrage de l'activité
-                        new Handler().postDelayed(() -> {
+                    if (tailleGrille >= 3 && tailleGrille <= 10)
+                        new Handler().postDelayed(() ->
+                        {
                             Intent intent = new Intent(TicTacToeParamActivity.this, TicTacToeActivity.class);
                             intent.putExtra("TAILLE_GRILLE", tailleGrille);
                             startActivity(intent);
-                            finish();  // Ferme l'activité actuelle
-                        }, 500);  // Délai de 500ms avant de lancer l'activité
-                    } else {
+                            finish();
+                        }, 500);
+                    else
                         Toast.makeText(this, "La taille doit être entre 3 et 10 !", Toast.LENGTH_SHORT).show();
-                    }
-                } catch (NumberFormatException e) {
+                }
+                catch (NumberFormatException e)
+                {
                     Toast.makeText(this, "Veuillez entrer un nombre valide.", Toast.LENGTH_SHORT).show();
                 }
-            } else {
-                Toast.makeText(this, "Veuillez entrer une taille de grille.", Toast.LENGTH_SHORT).show();
             }
+            else
+                Toast.makeText(this, "Veuillez entrer une taille de grille.", Toast.LENGTH_SHORT).show();
         });
 
         btnExit.setOnClickListener(v -> finish());

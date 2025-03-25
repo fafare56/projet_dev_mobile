@@ -5,20 +5,24 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-public class AI {
+public class AI
+{
     private char[][] grille;
     private char symboleIA = 'O';
     private char symboleJoueur = 'X';
 
-    public AI(char[][] grille) {
+    public AI(char[][] grille)
+    {
         this.grille = grille;
     }
 
-    public void setGrille(char[][] nouvelleGrille) {
+    public void setGrille(char[][] nouvelleGrille)
+    {
         this.grille = nouvelleGrille;
     }
 
-    public int[] mouvementIA() {
+    public int[] mouvementIA()
+    {
         // 1. Vérifier le coup gagnant
         int[] coupGagnant = trouverCoupGagnant(symboleIA);
         if (coupGagnant != null) return coupGagnant;
@@ -28,14 +32,15 @@ public class AI {
         if (coupBloquant != null) return coupBloquant;
 
         // 3. Jouer stratégiquement
-        int[] coupStrategique = coupStrategique(); // Sans accent
+        int[] coupStrategique = coupStrategique();
         if (coupStrategique != null) return coupStrategique;
 
         // 4. Mouvement aléatoire
         return mouvementAleatoire();
     }
 
-    private int[] coupStrategique() { // Sans accent
+    private int[] coupStrategique()
+    {
         int milieu = grille.length / 2;
 
         // jouer au centre si possible
@@ -51,20 +56,17 @@ public class AI {
         return null;
     }
 
-    public int[] mouvementAleatoire() {
+    public int[] mouvementAleatoire()
+    {
         List<int[]> casesLibres = new ArrayList<>();
 
-        for (int i = 0; i < grille.length; i++) {
-            for (int j = 0; j < grille.length; j++) {
-                if (grille[i][j] == ' ') {
+        for (int i = 0; i < grille.length; i++)
+            for (int j = 0; j < grille.length; j++)
+                if (grille[i][j] == ' ')
                     casesLibres.add(new int[]{j, i});
-                }
-            }
-        }
 
-        if (casesLibres.isEmpty()) {
+        if (casesLibres.isEmpty())
             return null;
-        }
 
         Random random = new Random();
         return casesLibres.get(random.nextInt(casesLibres.size()));
@@ -88,26 +90,6 @@ public class AI {
                     }
                     grille[i][j] = ' ';
                 }
-        return null;
-    }
-
-    /**
-     * Cherche un coup stratégique (centre ou coins)
-     */
-    private int[] coupStratégique()
-    {
-        int milieu = grille.length / 2;
-
-        // jouer au centre si possible
-        if (grille[milieu][milieu] == ' ')
-            return new int[]{milieu, milieu};
-
-        // sinon jouer dans un des coins
-        int[][] coins = {{0, 0}, {0, grille.length - 1}, {grille.length - 1, 0}, {grille.length - 1, grille.length - 1}};
-        for (int[] coin : coins)
-            if (grille[coin[1]][coin[0]] == ' ')
-
-                return new int[]{coin[0], coin[1]};
         return null;
     }
 

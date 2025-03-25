@@ -6,14 +6,16 @@ import android.widget.Button;
 import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 
-public class TicTacToeActivity extends AppCompatActivity {
+public class TicTacToeActivity extends AppCompatActivity
+{
     private int scoreX = 0;
     private int scoreO = 0;
     private TextView scoreXText, scoreOText;
     private TicTacToeView ticTacToeView;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.tictactoe);
 
@@ -24,34 +26,33 @@ public class TicTacToeActivity extends AppCompatActivity {
         int tailleGrille = getIntent().getIntExtra("TAILLE_GRILLE", 3);
         ticTacToeView.setTailleGrille(tailleGrille);
 
-        // Initialiser les scores
         updateScoreDisplay();
 
-        // Configurer le listener pour les mises à jour de score
-        ticTacToeView.setScoreUpdateListener(new TicTacToeView.ScoreUpdateListener() {
+        ticTacToeView.setScoreUpdateListener(new TicTacToeView.ScoreUpdateListener()
+        {
             @Override
-            public void onScoreUpdated(char winner) {
-                if (winner == 'X') {
+            public void onScoreUpdated(char winner)
+            {
+                if (winner == 'X')
                     scoreX++;
-                } else if (winner == 'O') {
+                else if (winner == 'O')
                     scoreO++;
-                }
                 updateScoreDisplay();
             }
         });
 
-        // Bouton Rejouer
         Button btnRejouer = findViewById(R.id.btnRejouer);
-        btnRejouer.setOnClickListener(v -> {
+        btnRejouer.setOnClickListener(v ->
+        {
             ticTacToeView.resetBoard();
         });
 
-        // Bouton Quitter
         Button btnQuitter = findViewById(R.id.btnQuitter);
         btnQuitter.setOnClickListener(v -> finish());
     }
 
-    private void updateScoreDisplay() {
+    private void updateScoreDisplay()
+    {
         scoreXText.setText("Score Joueur : " + scoreX);
         scoreOText.setText("Score IA : " + scoreO);
     }
