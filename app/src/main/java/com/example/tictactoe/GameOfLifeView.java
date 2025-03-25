@@ -7,23 +7,27 @@ import android.graphics.Paint;
 import android.util.AttributeSet;
 import android.view.View;
 
-public class GameOfLifeView extends View {
+public class GameOfLifeView extends View
+{
     private GameOfLife game;
     private Paint alivePaint;
     private Paint deadPaint;
     private Paint gridPaint;
 
-    public GameOfLifeView(Context context, AttributeSet attrs) {
+    public GameOfLifeView(Context context, AttributeSet attrs)
+    {
         super(context, attrs);
         init() ;
     }
 
-    public GameOfLifeView(Context context) {
+    public GameOfLifeView(Context context)
+    {
         super(context);
         init();
     }
 
-    private void init() {
+    private void init()
+    {
         alivePaint = new Paint();
         alivePaint.setColor(Color.BLACK);
 
@@ -40,7 +44,8 @@ public class GameOfLifeView extends View {
     }
 
     @Override
-    protected void onDraw(Canvas canvas) {
+    protected void onDraw(Canvas canvas)
+    {
         super.onDraw(canvas);
 
         if (game == null) return;
@@ -51,22 +56,19 @@ public class GameOfLifeView extends View {
 
         int cellSize = Math.min(width / grid[0].length, height / grid.length);
 
-        // Dessiner les cellules
-        for (int y = 0; y < grid.length; y++) {
-            for (int x = 0; x < grid[y].length; x++) {
+        for (int y = 0; y < grid.length; y++)
+            for (int x = 0; x < grid[y].length; x++)
+            {
                 Paint paint = grid[y][x] ? alivePaint : deadPaint;
                 canvas.drawRect(x * cellSize, y * cellSize,
                         (x + 1) * cellSize, (y + 1) * cellSize,
                         paint);
             }
-        }
 
-        // Dessiner la grille
-        for (int x = 0; x <= grid[0].length; x++) {
+        for (int x = 0; x <= grid[0].length; x++)
             canvas.drawLine(x * cellSize, 0, x * cellSize, grid.length * cellSize, gridPaint);
-        }
-        for (int y = 0; y <= grid.length; y++) {
+
+        for (int y = 0; y <= grid.length; y++)
             canvas.drawLine(0, y * cellSize, grid[0].length * cellSize, y * cellSize, gridPaint);
-        }
     }
 }

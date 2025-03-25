@@ -14,7 +14,8 @@ import android.view.WindowManager;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class GameActivity extends Activity implements SensorEventListener {
+public class GameActivity extends Activity implements SensorEventListener
+{
     private static final String TAG = "GameActivity";
     private SensorManager sensorManager;
     private Sensor gyroscope;
@@ -26,7 +27,8 @@ public class GameActivity extends Activity implements SensorEventListener {
     private Handler handler = new Handler();
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.suivi);
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
@@ -34,7 +36,8 @@ public class GameActivity extends Activity implements SensorEventListener {
         sensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
         gyroscope = sensorManager.getDefaultSensor(Sensor.TYPE_GYROSCOPE);
 
-        if (gyroscope == null) {
+        if (gyroscope == null)
+        {
             Toast.makeText(this, "Gyroscope non disponible", Toast.LENGTH_LONG).show();
             finish();
             return;
@@ -52,7 +55,8 @@ public class GameActivity extends Activity implements SensorEventListener {
     }
 
     @Override
-    protected void onResume() {
+    protected void onResume()
+    {
         super.onResume();
         sensorManager.registerListener(this, gyroscope, SensorManager.SENSOR_DELAY_GAME);
         isRunning = true;
@@ -60,21 +64,26 @@ public class GameActivity extends Activity implements SensorEventListener {
     }
 
     @Override
-    protected void onPause() {
+    protected void onPause()
+    {
         super.onPause();
         sensorManager.unregisterListener(this);
         isRunning = false;
     }
 
-    private void startGameLoop() {
-        handler.post(new Runnable() {
+    private void startGameLoop()
+    {
+        handler.post(new Runnable()
+        {
             @Override
-            public void run() {
+            public void run()
+            {
                 if (!isRunning) return;
 
                 gameView.updateGameState();
 
-                if (gameView.isTourComplet()) {
+                if (gameView.isTourComplet())
+                {
                     int score = gameView.calculateScore();
                     Intent resultIntent = new Intent();
                     resultIntent.putExtra("score", score);
@@ -90,10 +99,12 @@ public class GameActivity extends Activity implements SensorEventListener {
     }
 
     @Override
-    public void onSensorChanged(SensorEvent event) {
-        if (event.sensor.getType() == Sensor.TYPE_GYROSCOPE) {
-            float rotX = event.values[0]; // Inclinaison haut-bas
-            float rotY = event.values[1]; // Inclinaison gauche-droite
+    public void onSensorChanged(SensorEvent event)
+    {
+        if (event.sensor.getType() == Sensor.TYPE_GYROSCOPE)
+        {
+            float rotX = event.values[0];
+            float rotY = event.values[1];
             float rotZ = event.values[2];
 
             Log.d(TAG, "Gyroscope - X: " + rotX + ", Y: " + rotY + ", Z: " + rotZ);

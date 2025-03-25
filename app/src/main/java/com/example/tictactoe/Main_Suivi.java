@@ -10,19 +10,22 @@ import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.TextView;
 
-public class Main_Suivi extends Activity {
+public class Main_Suivi extends Activity
+{
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.main_suivi); // Doit correspondre à votre layout XML
+        setContentView(R.layout.main_suivi);
 
-        // Configurer le Spinner de difficulté
         Spinner spinnerDifficulte = findViewById(R.id.spinnerDifficulte);
         String[] difficultes = {"Facile", "Moyen", "Difficile"};
         ArrayAdapter<String> difficulteAdapter = new ArrayAdapter<String>(this,
-                android.R.layout.simple_spinner_item, difficultes) {
+                android.R.layout.simple_spinner_item, difficultes)
+        {
             @Override
-            public View getView(int position, View convertView, ViewGroup parent) {
+            public View getView(int position, View convertView, ViewGroup parent)
+            {
                 View view = super.getView(position, convertView, parent);
                 TextView textView = view.findViewById(android.R.id.text1);
                 textView.setTextColor(getResources().getColor(android.R.color.white));
@@ -30,7 +33,8 @@ public class Main_Suivi extends Activity {
             }
 
             @Override
-            public View getDropDownView(int position, View convertView, ViewGroup parent) {
+            public View getDropDownView(int position, View convertView, ViewGroup parent)
+            {
                 View view = super.getDropDownView(position, convertView, parent);
                 TextView textView = view.findViewById(android.R.id.text1);
                 textView.setTextColor(getResources().getColor(R.color.blue_clair));
@@ -40,13 +44,14 @@ public class Main_Suivi extends Activity {
         difficulteAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinnerDifficulte.setAdapter(difficulteAdapter);
 
-        // Configurer le Spinner de forme
         Spinner spinnerForme = findViewById(R.id.spinnerForme);
         String[] formes = {"Cercle", "Carré", "Triangle"};
         ArrayAdapter<String> formeAdapter = new ArrayAdapter<String>(this,
-                android.R.layout.simple_spinner_item, formes) {
+                android.R.layout.simple_spinner_item, formes)
+        {
             @Override
-            public View getView(int position, View convertView, ViewGroup parent) {
+            public View getView(int position, View convertView, ViewGroup parent)
+            {
                 View view = super.getView(position, convertView, parent);
                 TextView textView = view.findViewById(android.R.id.text1);
                 textView.setTextColor(getResources().getColor(android.R.color.white));
@@ -54,7 +59,8 @@ public class Main_Suivi extends Activity {
             }
 
             @Override
-            public View getDropDownView(int position, View convertView, ViewGroup parent) {
+            public View getDropDownView(int position, View convertView, ViewGroup parent)
+            {
                 View view = super.getDropDownView(position, convertView, parent);
                 TextView textView = view.findViewById(android.R.id.text1);
                 textView.setTextColor(getResources().getColor(R.color.blue_clair));
@@ -64,14 +70,14 @@ public class Main_Suivi extends Activity {
         formeAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinnerForme.setAdapter(formeAdapter);
 
-        // Configurer le bouton
         Button buttonStartGame = findViewById(R.id.buttonStartGame);
         buttonStartGame.setBackgroundColor(getResources().getColor(R.color.blue_clair));
 
-        // Action du bouton
-        buttonStartGame.setOnClickListener(new View.OnClickListener() {
+        buttonStartGame.setOnClickListener(new View.OnClickListener()
+        {
             @Override
-            public void onClick(View v) {
+            public void onClick(View v)
+            {
                 String difficulte = spinnerDifficulte.getSelectedItem().toString();
                 String forme = spinnerForme.getSelectedItem().toString();
                 Intent intent = new Intent(Main_Suivi.this,GameActivity.class);
@@ -81,7 +87,6 @@ public class Main_Suivi extends Activity {
             }
         });
 
-        // Configurer le TextView du score
         TextView scoreTextView = findViewById(R.id.scoreTextView);
         scoreTextView.setText("Score: -");
 
@@ -91,9 +96,11 @@ public class Main_Suivi extends Activity {
     }
 
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+    protected void onActivityResult(int requestCode, int resultCode, Intent data)
+    {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == 1 && resultCode == RESULT_OK && data != null) {
+        if (requestCode == 1 && resultCode == RESULT_OK && data != null)
+        {
             int score = data.getIntExtra("score", 0);
             TextView scoreTextView = findViewById(R.id.scoreTextView);
             scoreTextView.setText("Score: " + score);
