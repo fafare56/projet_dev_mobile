@@ -29,6 +29,19 @@
     <string name="default_size">20</string>
     <string name="default_density">30</string> <!-- 30% = 0.3 -->
 
+    <string name="gyro">Gyroscope Game</string>
+
+    <string-array name="difficulte_array">
+        <item>Facile</item>
+        <item>Moyen</item>
+        <item>Difficile</item>
+    </string-array>
+    <string-array name="forme_array">
+        <item>Cercle</item>
+        <item>Carré</item>
+        <item>Triangle</item>
+    </string-array>
+
 
 
 </resources>
