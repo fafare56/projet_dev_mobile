@@ -1,5 +1,9 @@
 package com.example.tictactoe;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
+
 public class AI
 {
     private char[][] grille;
@@ -11,23 +15,51 @@ public class AI
         this.grille = grille;
     }
 
-    public int[] mouvementIA()
-    {
-        // 1. Jouer le coup gagnant si possible
-        int[] coupGagnant = trouverCoupGagnant(symboleIA);
-        if (coupGagnant != null) return coupGagnant;
+    public int[] mouvementIA() {
+        System.out.println("IA joue...");
+        System.out.println("L'IA cherche un mouvement...");
 
-        // 2. Bloquer l'adversaire s'il peut gagner
-        int[] coupBloquant = trouverCoupGagnant(symboleJoueur);
-        if (coupBloquant != null) return coupBloquant;
+        List<int[]> coupsPossibles = new ArrayList<>();
 
-        // 3. Jouer de manière stratégique
-        int[] coupStrategique = coupStratégique();
-        if (coupStrategique != null) return coupStrategique;
+        for (int y = 0; y < 3; y++) {
+            for (int x = 0; x < 3; x++) {
+                if (grille[y][x] == ' ') {  // Vérifie si la case est vide
+                    coupsPossibles.add(new int[]{x, y});
+                }
+            }
+        }
 
-        // 4. Si rien n'est choisi, choisir un emplacement libre aléatoire
-        return mouvementAleatoire();
+        System.out.println("Coups possibles pour l'IA : " + coupsPossibles.size());
+
+        if (coupsPossibles.isEmpty()) {
+            System.out.println("L'IA ne peut plus jouer, plateau plein.");
+            return null;  // Partie terminée
+        }
+
+        // Choix aléatoire d'un coup parmi ceux disponibles
+        Random rand = new Random();
+        int[] coupChoisi = coupsPossibles.get(rand.nextInt(coupsPossibles.size()));
+
+        int x = coupChoisi[0];
+        int y = coupChoisi[1];
+
+        System.out.println("L'IA joue en : " + x + "," + y);
+
+        if (grille[y][x] != ' ') {
+            System.out.println("ERREUR : L'IA essaie de jouer sur une case occupée !");
+            return null;  // Ne pas jouer si la case est occupée (ce qui ne devrait jamais arriver)
+        }
+
+        // Met à jour le plateau avec le coup de l'IA
+        grille[y][x] = 'O';
+        System.out.println("IA a joué en (" + x + "," + y + ")");
+
+        // Afficher l'état du board après le coup
+        //afficherBoard();
+
+        return coupChoisi;
     }
+
 
     /**
      * Vérifie si un joueur peut gagner au prochain coup.

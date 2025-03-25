@@ -15,6 +15,8 @@ public class TicTacToeView extends View
     private char currentPlayer;
     private AI iaJeu;
     private boolean gameOver = false;
+    private boolean isPlayerTurn = true; // Flag pour savoir si c'est le tour du joueur
+
 
     private static int TAILLEGRILLE = 3;
     private static final int ALIGNEMENT_VICTOIRE = TAILLEGRILLE;
@@ -33,15 +35,18 @@ public class TicTacToeView extends View
         iaJeu = new AI(board);
     }
 
-    public void resetBoard()
-    {
-        board = new char[TAILLEGRILLE][TAILLEGRILLE];
-        for (int i = 0; i < TAILLEGRILLE; i++)
-            for (int j = 0; j < TAILLEGRILLE; j++)
-                board[i][j] = ' ';
-        currentPlayer = 'X';
-        gameOver = false;
-        invalidate();
+    public void resetBoard() {
+        // Réinitialiser le plateau
+        for (int y = 0; y < 3; y++) {
+            for (int x = 0; x < 3; x++) {
+                board[y][x] = ' ';  // Vide la grille
+            }
+        }
+
+        // Remettre la main au joueur
+        isPlayerTurn = true;  // IMPORTANT : S'assurer que c'est au joueur de commencer
+
+        System.out.println("Le jeu a été réinitialisé. C'est au joueur de jouer.");
     }
 
 
@@ -84,7 +89,7 @@ public class TicTacToeView extends View
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
-        if (gameOver) return true;
+        if (gameOver || !isPlayerTurn) return true;  // Empêcher l'utilisateur de jouer si ce n'est pas son tour
 
         int width = getWidth();
         int cellSize = width / TAILLEGRILLE;
@@ -109,6 +114,7 @@ public class TicTacToeView extends View
 
                 // Si c'est le tour de l'IA, faire jouer l'IA dans un thread séparé
                 if (currentPlayer == 'O') {
+                    isPlayerTurn = false; // Bloquer l'utilisateur pendant que l'IA joue
                     new Thread(new Runnable() {
                         @Override
                         public void run() {
@@ -135,37 +141,49 @@ public class TicTacToeView extends View
     private void jouerIA() {
         if (gameOver) return;
 
-        // L'IA joue ici
+        System.out.println("IA joue...");
+
         int[] mouvement = iaJeu.mouvementIA();
+
+        if (mouvement == null) {
+            System.out.println("L'IA ne trouve aucun coup possible !");
+            isPlayerTurn = true;
+            return;
+        }
+
         int x = mouvement[0];
         int y = mouvement[1];
 
-        while (board[y][x] != ' ') {
-            mouvement = iaJeu.mouvementIA();
-            x = mouvement[0];
-            y = mouvement[1];
+        System.out.println("L'IA veut jouer en (" + x + "," + y + ")");
+
+        // Vérifier si la case est bien vide
+        if (board[y][x] != ' ') {
+            System.out.println("ERREUR : L'IA essaie de jouer sur une case occupée !");
+            return;
         }
 
-        // Marquer la case avec le coup de l'IA
+        // Appliquer le coup
         board[y][x] = 'O';
 
-        // Mettre à jour l'interface dans le thread principal
         post(new Runnable() {
             @Override
             public void run() {
-                invalidate();  // Rafraîchir l'affichage
+                System.out.println("IA a joué en (" + x + "," + y + ")");
+                invalidate();
 
-                // Vérifier si l'IA a gagné
                 if (verifierGagnant('O')) {
                     afficherVainqueur('O');
                     return;
                 }
 
-                // Passer au joueur suivant (X)
                 currentPlayer = 'X';
+                isPlayerTurn = true;
+                System.out.println("Tour du joueur.");
             }
         });
     }
+
+
 
 
 
