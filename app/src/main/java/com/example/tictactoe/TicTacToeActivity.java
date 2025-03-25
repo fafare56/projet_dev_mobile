@@ -9,7 +9,6 @@ import androidx.appcompat.app.AppCompatActivity;
 public class TicTacToeActivity extends AppCompatActivity {
     private int scoreX = 0;
     private int scoreO = 0;
-    private int tailleGrille = 3; // Par défaut 3x3
     private TextView scoreXText, scoreOText;
     private TicTacToeView ticTacToeView;
 
@@ -18,25 +17,39 @@ public class TicTacToeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.tictactoe);
 
-        tailleGrille = getIntent().getIntExtra("TAILLE_GRILLE", 3);
-
         scoreXText = findViewById(R.id.scoreX);
         scoreOText = findViewById(R.id.scoreO);
         ticTacToeView = findViewById(R.id.ticTacToeView);
 
-        ticTacToeView.setTailleGrille(tailleGrille);
+        // Initialiser les scores
+        updateScoreDisplay();
 
+        // Configurer le listener pour les mises à jour de score
+        ticTacToeView.setScoreUpdateListener(new TicTacToeView.ScoreUpdateListener() {
+            @Override
+            public void onScoreUpdated(char winner) {
+                if (winner == 'X') {
+                    scoreX++;
+                } else if (winner == 'O') {
+                    scoreO++;
+                }
+                updateScoreDisplay();
+            }
+        });
+
+        // Bouton Rejouer
         Button btnRejouer = findViewById(R.id.btnRejouer);
-        btnRejouer.setOnClickListener(v -> ticTacToeView.resetBoard());
+        btnRejouer.setOnClickListener(v -> {
+            ticTacToeView.resetBoard();
+        });
+
+        // Bouton Quitter
+        Button btnQuitter = findViewById(R.id.btnQuitter);
+        btnQuitter.setOnClickListener(v -> finish());
     }
 
-    public void updateScore(char winner) {
-        if (winner == 'X') {
-            scoreX++;
-            scoreXText.setText("Joueur X : " + scoreX);
-        } else if (winner == 'O') {
-            scoreO++;
-            scoreOText.setText("Joueur O : " + scoreO);
-        }
+    private void updateScoreDisplay() {
+        scoreXText.setText("Joueur X : " + scoreX);
+        scoreOText.setText("Joueur O : " + scoreO);
     }
 }

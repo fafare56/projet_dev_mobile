@@ -2,39 +2,57 @@ package com.example.tictactoe;
 
 import android.content.Context;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Paint;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Toast;
-import java.util.Arrays;
 
 public class TicTacToeView extends View {
-    private Paint paint;
     private char[][] board;
     private char currentPlayer;
     private AI iaJeu;
     private boolean gameOver = false;
 
-    private static int TAILLEGRILLE = 3;
-    private static final int ALIGNEMENT_VICTOIRE = TAILLEGRILLE;
+    private Paint gridPaint;
+    private Paint xPaint;
+    private Paint oPaint;
+    private float strokeWidth = 12f;
+
+    private int TAILLEGRILLE = 3; // Valeur par défaut
+    private ScoreUpdateListener scoreUpdateListener;
 
     public TicTacToeView(Context context, AttributeSet attrs) {
         super(context, attrs);
-        paint = new Paint();
-        paint.setColor(0xFF000000);
-        paint.setStrokeWidth(10);
+        initGame();
+    }
 
-        // Initialisation du tableau board
+    private void initGame() {
+        // Initialisation des Paint
+        gridPaint = new Paint();
+        gridPaint.setColor(Color.WHITE);
+        gridPaint.setStrokeWidth(strokeWidth);
+        gridPaint.setStyle(Paint.Style.STROKE);
+        gridPaint.setAntiAlias(true);
+
+        xPaint = new Paint(gridPaint);
+        xPaint.setStrokeWidth(strokeWidth * 1.5f);
+        xPaint.setColor(Color.WHITE);
+
+        oPaint = new Paint(gridPaint);
+        oPaint.setStrokeWidth(strokeWidth * 1.2f);
+        oPaint.setColor(Color.WHITE);
+        oPaint.setStyle(Paint.Style.STROKE);
+
+        // Initialisation du plateau
         board = new char[TAILLEGRILLE][TAILLEGRILLE];
-        currentPlayer = 'X';
-        resetBoard();  // Initialiser le plateau
-
+        resetBoard();
         iaJeu = new AI(board);
     }
 
     public void resetBoard() {
-        board = new char[TAILLEGRILLE][TAILLEGRILLE];
         for (int i = 0; i < TAILLEGRILLE; i++) {
             for (int j = 0; j < TAILLEGRILLE; j++) {
                 board[i][j] = ' ';
@@ -49,33 +67,40 @@ public class TicTacToeView extends View {
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
 
-        int width = getWidth();
-        int height = getHeight();
-        int cellSize = width / TAILLEGRILLE;
-
-        // Réduire l'épaisseur des lignes de la grille
-        paint.setStrokeWidth(8);
-
-        // Dessiner les lignes de la grille
-        for (int i = 1; i < TAILLEGRILLE; i++) {
-            int pos = i * cellSize;
-            canvas.drawLine(pos, 0, pos, height, paint);
-            canvas.drawLine(0, pos, width, pos, paint);
+        if (board == null) {
+            Log.e("TicTacToe", "Board is null in onDraw");
+            return;
         }
 
-        // Augmenter la taille du texte pour les symboles X et O
-        Paint textPaint = new Paint();
-        textPaint.setColor(0xFF000000);
-        textPaint.setTextSize(150);  // Augmenter la taille du texte
-        textPaint.setTextAlign(Paint.Align.CENTER);
+        int width = getWidth();
+        int height = getHeight();
+        int margin = (int)(width * 0.1f);
+        int gridSize = Math.min(width, height) - 2 * margin;
+        int cellSize = gridSize / TAILLEGRILLE;
 
-        // Dessiner les X et O dans chaque case
+        // Dessin de la grille
+        for (int i = 1; i < TAILLEGRILLE; i++) {
+            int pos = margin + i * cellSize;
+            canvas.drawLine(pos, margin, pos, margin + gridSize, gridPaint);
+            canvas.drawLine(margin, pos, margin + gridSize, pos, gridPaint);
+        }
+
+        // Dessin des symboles
         for (int i = 0; i < TAILLEGRILLE; i++) {
             for (int j = 0; j < TAILLEGRILLE; j++) {
-                if (board[i][j] != ' ') {
-                    float x = j * cellSize + cellSize / 2f;
-                    float y = i * cellSize + cellSize / 2f + 35;
-                    canvas.drawText(String.valueOf(board[i][j]), x, y, textPaint);
+                if (i >= board.length || j >= board[i].length) continue;
+
+                int centerX = margin + j * cellSize + cellSize / 2;
+                int centerY = margin + i * cellSize + cellSize / 2;
+                int radius = (int)(cellSize * 0.4f);
+
+                if (board[i][j] == 'X') {
+                    canvas.drawLine(centerX - radius, centerY - radius,
+                            centerX + radius, centerY + radius, xPaint);
+                    canvas.drawLine(centerX + radius, centerY - radius,
+                            centerX - radius, centerY + radius, xPaint);
+                } else if (board[i][j] == 'O') {
+                    canvas.drawCircle(centerX, centerY, radius, oPaint);
                 }
             }
         }
@@ -83,31 +108,39 @@ public class TicTacToeView extends View {
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
-        if (gameOver) return true;
+        if (gameOver || currentPlayer != 'X') return true;
 
         int width = getWidth();
-        int cellSize = width / TAILLEGRILLE;
+        int margin = (int)(width * 0.1f);
+        int gridSize = width - 2 * margin;
+        int cellSize = gridSize / TAILLEGRILLE;
 
         if (event.getAction() == MotionEvent.ACTION_DOWN) {
-            int xPos = (int) event.getX() / cellSize;
-            int yPos = (int) event.getY() / cellSize;
+            int x = (int)event.getX();
+            int y = (int)event.getY();
 
-            if (board[yPos][xPos] == ' ') {
-                // Marquer la case avec le coup du joueur
+            // Vérifier que le toucher est dans la grille
+            if (x < margin || x > margin + gridSize ||
+                    y < margin || y > margin + gridSize) {
+                return true;
+            }
+
+            int xPos = (x - margin) / cellSize;
+            int yPos = (y - margin) / cellSize;
+
+            if (xPos >= 0 && xPos < TAILLEGRILLE &&
+                    yPos >= 0 && yPos < TAILLEGRILLE &&
+                    board[yPos][xPos] == ' ') {
+
                 board[yPos][xPos] = currentPlayer;
                 invalidate();
 
-                // Vérifier si le joueur a gagné
                 if (verifierGagnant(currentPlayer)) {
                     afficherVainqueur(currentPlayer);
-                    return true;
-                }
-
-                // Changer de joueur
-                currentPlayer = (currentPlayer == 'X') ? 'O' : 'X';
-
-                // Si c'est le tour de l'IA, faire jouer l'IA
-                if (currentPlayer == 'O') {
+                } else if (estMatchNul()) {
+                    afficherMatchNul();
+                } else {
+                    currentPlayer = 'O';
                     jouerIA();
                 }
             }
@@ -193,7 +226,7 @@ public class TicTacToeView extends View {
         int count = 0;
         for (char cell : ligne) {
             count = (cell == joueur) ? count + 1 : 0;
-            if (count == ALIGNEMENT_VICTOIRE) return true;
+            if (count == TAILLEGRILLE) return true; // Utilisation de TAILLEGRILLE au lieu de ALIGNEMENT_VICTOIRE
         }
         return false;
     }
@@ -224,12 +257,21 @@ public class TicTacToeView extends View {
 
     private void afficherVainqueur(char gagnant) {
         gameOver = true;
+        if (scoreUpdateListener != null) {
+            scoreUpdateListener.onScoreUpdated(gagnant);
+        }
+
         Toast.makeText(getContext(), "Le joueur " + gagnant + " a gagné !", Toast.LENGTH_LONG).show();
-        postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                resetBoard();
-            }
-        }, 2000);
+        postDelayed(this::resetBoard, 2000);
     }
+
+    public interface ScoreUpdateListener {
+        void onScoreUpdated(char winner);
+    }
+
+    public void setScoreUpdateListener(ScoreUpdateListener listener) {
+        this.scoreUpdateListener = listener;
+    }
+
+
 }
