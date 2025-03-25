@@ -45,7 +45,7 @@ public class MainActivity extends AppCompatActivity {
 
         // Bouton Jeu de la Vie -> Lancer JeuDeLaVieActivity (à créer)
         btnJeuVie.setOnClickListener(v -> {
-            Intent intent = new Intent(MainActivity.this, JeuVie.class);
+            Intent intent = new Intent(MainActivity.this, JeuVieParam.class);
             startActivity(intent);
         });
 

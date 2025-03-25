@@ -1,123 +1,91 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/blue_foncé">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:background="@color/blue_foncé"
-        android:padding="@dimen/default_padding">
+        android:padding="16dp">
 
-        <!-- Paramètres -->
-        <TextView
-            android:id="@+id/size_text"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/size_label"
-            android:textColor="@color/white"
-            android:textSize="@dimen/text_medium"/>
-
-        <SeekBar
-            android:id="@+id/size_seekbar"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:min="5"
-            android:max="50"
-            android:progress="@integer/default_size"/>
-
-        <TextView
-            android:id="@+id/density_text"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/density_label"
-            android:textColor="@color/white"
-            android:textSize="@dimen/text_medium"/>
-
-        <SeekBar
-            android:id="@+id/density_seekbar"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:min="0"
-            android:max="100"
-            android:progress="@integer/default_density"/>
-
-        <!-- Boutons -->
+        <!-- Boutons de contrôle -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:layout_marginTop="@dimen/spacing_medium">
+            android:layout_marginBottom="8dp">
 
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/start_button"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:text="@string/start_button"
                 android:background="@color/blue_clair"
-                android:layout_marginEnd="5dp"
-                android:text="@string/start_button"/>
+                android:layout_marginEnd="4dp"/>
 
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/stop_button"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:text="@string/stop_button"
                 android:background="@color/blue_clair"
-                android:layout_marginEnd="5dp"
-                android:text="@string/stop_button"/>
+                android:layout_marginEnd="4dp"/>
 
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/reset_button"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:background="@color/blue_clair"
-                android:layout_marginEnd="5dp"
-                android:text="@string/reset_button"/>
+                android:text="@string/reset_button"
+                android:background="@color/blue_clair"/>
         </LinearLayout>
 
-        <!-- Stats -->
+        <!-- Bouton Paramètres -->
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/settings_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/retour"
+            android:background="@color/blue_clair"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"/>
+
+        <!-- Affichage des statistiques -->
         <TextView
             android:id="@+id/iteration_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/iteration_label"
             android:textColor="@color/white"
-            android:textSize="@dimen/text_large"/>
+            android:textSize="18sp"
+            android:layout_marginBottom="4dp"/>
 
         <TextView
             android:id="@+id/result_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textColor="@color/white"
-            android:textSize="@dimen/text_large"/>
+            android:textSize="18sp"
+            android:layout_marginBottom="8dp"/>
 
         <!-- Vue du jeu -->
         <com.example.tictactoe.GameOfLifeView
             android:id="@+id/game_view"
             android:layout_width="match_parent"
-            android:layout_height="436dp"
-            android:layout_marginTop="@dimen/spacing_medium"
-            android:layout_weight="40"
-            android:background="@color/white" />
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:background="@color/white"
+            android:layout_marginTop="8dp"/>
 
         <TextView
             android:layout_width="0dp"
-            android:layout_height="273dp"
-
-            android:layout_weight="50">
+            android:layout_height="220dp">
         </TextView>
-
-        <!-- Nouveau bouton en bas de la page -->
-        <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/btn_retour"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/spacing_medium"
-            android:background="@color/blue_clair"
-            android:text="@string/retour"/>
 
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
