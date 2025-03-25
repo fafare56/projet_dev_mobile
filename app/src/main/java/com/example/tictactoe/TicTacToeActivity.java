@@ -1,5 +1,6 @@
 package com.example.tictactoe;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.TextView;
@@ -27,6 +28,7 @@ public class TicTacToeActivity extends AppCompatActivity {
 
         Button btnRejouer = findViewById(R.id.btnRejouer);
         btnRejouer.setOnClickListener(v -> ticTacToeView.resetBoard());
+
     }
 
     public void updateScore(char winner) {

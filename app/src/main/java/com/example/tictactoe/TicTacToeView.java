@@ -83,15 +83,13 @@ public class TicTacToeView extends View
 
 
     @Override
-    public boolean onTouchEvent(MotionEvent event)
-    {
+    public boolean onTouchEvent(MotionEvent event) {
         if (gameOver) return true;
 
         int width = getWidth();
         int cellSize = width / TAILLEGRILLE;
 
-        if (event.getAction() == MotionEvent.ACTION_DOWN)
-        {
+        if (event.getAction() == MotionEvent.ACTION_DOWN) {
             int xPos = (int) event.getX() / cellSize;
             int yPos = (int) event.getY() / cellSize;
 
@@ -109,14 +107,20 @@ public class TicTacToeView extends View
                 // Changer de joueur
                 currentPlayer = (currentPlayer == 'X') ? 'O' : 'X';
 
-                // Si c'est le tour de l'IA, faire jouer l'IA
+                // Si c'est le tour de l'IA, faire jouer l'IA dans un thread séparé
                 if (currentPlayer == 'O') {
-                    jouerIA();
+                    new Thread(new Runnable() {
+                        @Override
+                        public void run() {
+                            jouerIA();
+                        }
+                    }).start();
                 }
             }
         }
         return true;
     }
+
 
 
 
@@ -144,16 +148,23 @@ public class TicTacToeView extends View
 
         // Marquer la case avec le coup de l'IA
         board[y][x] = 'O';
-        invalidate();
 
-        // Vérifier si l'IA a gagné
-        if (verifierGagnant('O')) {
-            afficherVainqueur('O');
-            return;
-        }
+        // Mettre à jour l'interface dans le thread principal
+        post(new Runnable() {
+            @Override
+            public void run() {
+                invalidate();  // Rafraîchir l'affichage
 
-        // Passer au joueur suivant (X)
-        currentPlayer = 'X';
+                // Vérifier si l'IA a gagné
+                if (verifierGagnant('O')) {
+                    afficherVainqueur('O');
+                    return;
+                }
+
+                // Passer au joueur suivant (X)
+                currentPlayer = 'X';
+            }
+        });
     }
 
 

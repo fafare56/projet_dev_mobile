@@ -2,6 +2,7 @@ package com.example.tictactoe;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -27,9 +28,13 @@ public class TicTacToeParamActivity extends AppCompatActivity {
                     int tailleGrille = Integer.parseInt(tailleGrilleStr);
 
                     if (tailleGrille >= 3 && tailleGrille <= 10) {
-                        Intent intent = new Intent(TicTacToeParamActivity.this, TicTacToeActivity.class);
-                        intent.putExtra("TAILLE_GRILLE", tailleGrille);
-                        startActivity(intent);
+                        // Utiliser un Handler pour postposer le démarrage de l'activité
+                        new Handler().postDelayed(() -> {
+                            Intent intent = new Intent(TicTacToeParamActivity.this, TicTacToeActivity.class);
+                            intent.putExtra("TAILLE_GRILLE", tailleGrille);
+                            startActivity(intent);
+                            finish();  // Ferme l'activité actuelle
+                        }, 500);  // Délai de 500ms avant de lancer l'activité
                     } else {
                         Toast.makeText(this, "La taille doit être entre 3 et 10 !", Toast.LENGTH_SHORT).show();
                     }
