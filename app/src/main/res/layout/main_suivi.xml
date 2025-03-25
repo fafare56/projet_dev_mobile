@@ -10,6 +10,25 @@
         android:orientation="vertical"
         android:padding="16dp">
 
+        <TextView
+            android:layout_width="950px"
+            android:layout_height="470px"
+            android:text="@string/btn_SuiviCourbes"
+            android:textSize="70sp"
+            android:gravity="center"
+            android:fontFamily="@font/dopestyle"
+            android:textColor="@color/white"/>
+
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:layout_gravity="center"
+        android:layout_centerInParent="true"
+        android:layout_marginTop="200px">
+
         <Spinner
             android:id="@+id/spinnerDifficulte"
             android:layout_width="match_parent"
@@ -26,9 +45,19 @@
 
         <Button
             android:id="@+id/buttonStartGame"
-            android:layout_width="match_parent"
+            android:layout_width="600px"
             android:layout_height="wrap_content"
             android:text="Jouer"
+            android:background="@color/blue_clair"
+            android:textColor="@color/white"
+            android:layout_marginBottom="16dp"/>
+
+        <Button
+            android:layout_marginTop="50px"
+            android:id="@+id/btn_retour"
+            android:layout_width="600px"
+            android:layout_height="wrap_content"
+            android:text="@string/btn_cancel"
             android:background="@color/blue_clair"
             android:textColor="@color/white"
             android:layout_marginBottom="16dp"/>
@@ -37,9 +66,12 @@
             android:id="@+id/scoreTextView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:textAlignment="center"
             android:text="Score: -"
             android:textColor="@color/white"
             android:textSize="18sp"/>
+    </LinearLayout>
+
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

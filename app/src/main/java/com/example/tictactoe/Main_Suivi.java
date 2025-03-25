@@ -84,6 +84,10 @@ public class Main_Suivi extends Activity {
         // Configurer le TextView du score
         TextView scoreTextView = findViewById(R.id.scoreTextView);
         scoreTextView.setText("Score: -");
+
+        Button btnExit = findViewById(R.id.btn_retour);
+        btnExit.setOnClickListener(v -> finish());
+
     }
 
     @Override
