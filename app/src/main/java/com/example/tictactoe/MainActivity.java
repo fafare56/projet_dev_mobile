@@ -50,9 +50,9 @@ public class MainActivity extends AppCompatActivity {
         });
 
         // Bouton Suivi des Courbes -> Lancer CourbesActivity (à créer)
-        /*btnRond.setOnClickListener(v -> {
-            Intent intent = new Intent(MainActivity.this, CourbesActivity.class);
+        btnRond.setOnClickListener(v -> {
+            Intent intent = new Intent(MainActivity.this, Main_Suivi.class);
             startActivity(intent);
-        });*/
+        });
     }
 }
