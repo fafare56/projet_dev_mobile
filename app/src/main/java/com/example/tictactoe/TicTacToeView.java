@@ -10,7 +10,8 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Toast;
 
-public class TicTacToeView extends View {
+public class TicTacToeView extends View
+{
     private char[][] board;
     private char currentPlayer;
     private AI iaJeu;

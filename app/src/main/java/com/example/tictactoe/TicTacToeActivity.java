@@ -21,6 +21,9 @@ public class TicTacToeActivity extends AppCompatActivity {
         scoreOText = findViewById(R.id.scoreO);
         ticTacToeView = findViewById(R.id.ticTacToeView);
 
+        int tailleGrille = getIntent().getIntExtra("TAILLE_GRILLE", 3);
+        ticTacToeView.setTailleGrille(tailleGrille);
+
         // Initialiser les scores
         updateScoreDisplay();
 
@@ -49,7 +52,7 @@ public class TicTacToeActivity extends AppCompatActivity {
     }
 
     private void updateScoreDisplay() {
-        scoreXText.setText("Joueur X : " + scoreX);
-        scoreOText.setText("Joueur O : " + scoreO);
+        scoreXText.setText("Score Joueur : " + scoreX);
+        scoreOText.setText("Score IA : " + scoreO);
     }
 }
